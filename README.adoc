@@ -8,9 +8,9 @@ The following is a minimal example documentation.
 == Resources
 Example:
 
-`GET .../resources`
-
 ----
+GET .../resources
+
 {
     "_links": {
         "drawings": ".../resources/drawings"
@@ -21,9 +21,9 @@ Example:
 == Drawings
 Example:
 
-`GET .../resources/drawings`
-
 ----
+GET .../resources/drawings
+
 [
     {
         "created": "2016-01-01T10:00:00.000Z",
@@ -53,8 +53,8 @@ SVG path as plain text
 == Drawing
 Example:
 
-`GET .../resources/drawings/1`
-
 ----
+GET .../resources/drawings/1
+
 SVG path as plain text
 ----
