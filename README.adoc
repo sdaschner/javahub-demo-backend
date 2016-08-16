@@ -1,7 +1,7 @@
 = Javahub Cutter Demo Backend
 
 The drawings (and other modules in the future) are accessible via REST using a basic Hypermedia approach.
-See `/resources` for links to the modules.
+See `/modules` for links to the modules.
 
 The following is a minimal example documentation.
 
@@ -9,11 +9,11 @@ The following is a minimal example documentation.
 Example:
 
 ----
-GET .../resources
+GET .../modules
 
 {
     "_links": {
-        "drawings": ".../resources/drawings"
+        "drawings": ".../modules/drawings"
     }
 }
 ----
@@ -22,19 +22,19 @@ GET .../resources
 Example:
 
 ----
-GET .../resources/drawings
+GET .../modules/drawings
 
 [
     {
         "created": "2016-01-01T10:00:00.000Z",
         "_links": {
-            "self": ".../resources/drawings/1"
+            "self": ".../modules/drawings/1"
         }
     },
     {
         "created": "2016-01-02T10:00:00.000Z",
         "_links": {
-            "self": ".../resources/drawings/2"
+            "self": ".../modules/drawings/2"
         }
     }
 ]
@@ -44,7 +44,7 @@ GET .../resources/drawings
 Example:
 
 ----
-POST .../resources/drawings
+POST .../modules/drawings
 Content-Type: text/plain
 
 SVG path as plain text
@@ -54,7 +54,7 @@ SVG path as plain text
 Example:
 
 ----
-GET .../resources/drawings/1
+GET .../modules/drawings/1
 
 SVG path as plain text
 ----
