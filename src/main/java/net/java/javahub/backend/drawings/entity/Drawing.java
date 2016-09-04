@@ -1,4 +1,4 @@
-package net.java.javahub.cutter.backend.drawings.entity;
+package net.java.javahub.backend.drawings.entity;
 
 import javax.persistence.*;
 import java.time.Instant;

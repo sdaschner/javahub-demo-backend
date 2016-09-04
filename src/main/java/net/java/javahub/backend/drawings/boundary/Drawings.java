@@ -1,6 +1,6 @@
-package net.java.javahub.cutter.backend.drawings.boundary;
+package net.java.javahub.backend.drawings.boundary;
 
-import net.java.javahub.cutter.backend.drawings.entity.Drawing;
+import net.java.javahub.backend.drawings.entity.Drawing;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

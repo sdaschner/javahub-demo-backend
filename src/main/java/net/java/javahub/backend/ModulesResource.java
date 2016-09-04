@@ -1,6 +1,4 @@
-package net.java.javahub.cutter.backend;
-
-import net.java.javahub.cutter.backend.drawings.boundary.DrawingsResource;
+package net.java.javahub.backend;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -14,14 +12,21 @@ import java.net.URI;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-public class RootResource {
+public class ModulesResource {
 
     @Context
     UriInfo uriInfo;
 
     @GET
     public JsonObject getModules() {
-        final URI drawingsUri = uriInfo.getRequestUriBuilder().path(DrawingsResource.class).build();
+        final URI drawingsUri = uriInfo.getRequestUriBuilder().path(ModulesResource.class).build();
+        // TODO add remaining
+//        "drawings": ".../modules/drawings",
+//        "coffee": ".../modules/coffee",
+//        "games": ".../modules/games",
+//        "embroideries": ".../modules/embroideries",
+//        "3d_prints": ".../modules/3d_prints",
+
         return Json.createObjectBuilder().add("_links", Json.createObjectBuilder()
                 .add("drawings", drawingsUri.toString()))
                 .build();

@@ -1,4 +1,4 @@
-package net.java.javahub.cutter.backend;
+package net.java.javahub.backend;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

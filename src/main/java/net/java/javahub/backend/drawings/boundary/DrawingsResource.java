@@ -1,6 +1,6 @@
-package net.java.javahub.cutter.backend.drawings.boundary;
+package net.java.javahub.backend.drawings.boundary;
 
-import net.java.javahub.cutter.backend.drawings.entity.Drawing;
+import net.java.javahub.backend.drawings.entity.Drawing;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -58,7 +58,7 @@ public class DrawingsResource {
     }
 
     private URI createUri(final Drawing drawing) {
-        return uriInfo.getBaseUriBuilder().path(DrawingsResource.class).path(DrawingsResource.class, "getDrawing").build(drawing.getId());
+        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "getDrawing").build(drawing.getId());
     }
 
 }

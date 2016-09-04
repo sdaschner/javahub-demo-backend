@@ -1,4 +1,4 @@
-package net.java.javahub.cutter.backend;
+package net.java.javahub.backend;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

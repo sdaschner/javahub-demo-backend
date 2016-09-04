@@ -1,48 +1,65 @@
-= Javahub Cutter Demo Backend
+= JavaHub Demo Backend
+mail@sebastian-daschner.com
 
-The drawings (and other modules in the future) are accessible via REST using a basic Hypermedia approach.
-See `/modules` for links to the modules.
+The JavaHub backend modules are accessible via REST using a basic Hypermedia approach.
 
 The following is a minimal example documentation.
 
-== Resources
-Example:
+== General
 
+=== Get modules
+.Request
 ----
 GET .../modules
+----
+
+.Response
+----
+Content-Type: application/json
 
 {
     "_links": {
-        "drawings": ".../modules/drawings"
+        "drawings": ".../modules/drawings",
+        "coffee": ".../modules/coffee",
+        "games": ".../modules/games",
+        "embroideries": ".../modules/embroideries",
+        "3d_prints": ".../modules/3d_prints",
     }
 }
 ----
 
 == Drawings
-Example:
 
+=== Get drawings
+.Request
 ----
 GET .../modules/drawings
+----
+
+.Response
+----
+Content-Type: application/json
 
 [
     {
         "created": "2016-01-01T10:00:00.000Z",
         "_links": {
-            "self": ".../modules/drawings/1"
+            "self": ".../modules/drawings/88a97958-4e71-4d55-9672-a0a6e6b706a1"
         }
     },
     {
         "created": "2016-01-02T10:00:00.000Z",
         "_links": {
-            "self": ".../modules/drawings/2"
+            "self": ".../modules/drawings/70eaa930-826f-49d8-bd6c-f87a3d739645"
         }
     }
 ]
 ----
 
-== Create a new drawing
-Example:
+=== Create a new drawing
+*For App*: The URL of the created drawing data (as in the `Location` header field) is used to create the QR code.
 
+.Request
 ----
 POST .../modules/drawings
 Content-Type: text/plain
@@ -50,11 +67,300 @@ Content-Type: text/plain
 SVG path as plain text
 ----
 
-== Drawing
-Example:
-
+.Response
 ----
-GET .../modules/drawings/1
+Location: .../modules/drawings/88a97958-4e71-4d55-9672-a0a6e6b706a1
+----
+
+=== Get drawing
+.Request
+----
+GET .../modules/drawings/88a97958-4e71-4d55-9672-a0a6e6b706a1
+----
+
+.Response
+----
+Content-Type: text/plain
 
 SVG path as plain text
 ----
+
+== Coffee
+
+=== Get coffee types
+*For App*: The coffee `type` is used to order a coffee.
+
+.Request
+----
+GET .../modules/coffee/types
+----
+
+.Response
+----
+Content-Type: application/json
+
+[
+    {
+        "name": "Colombia",
+        "type": "75e67e9e-a0c7-4a4b-950a-b6a3c5852997",
+        "_links": {
+            "self": ".../modules/coffee/types/75e67e9e-a0c7-4a4b-950a-b6a3c5852997",
+        }
+    },
+    {
+        "name": "Dominican Republic",
+        "type": "0145a0f5-8a88-4dcc-85c0-229ed9e5de9c",
+        "_links": {
+            "self": ".../modules/coffee/types/0145a0f5-8a88-4dcc-85c0-229ed9e5de9c",
+        }
+    },
+    {
+        "name": "Ethiopia",
+        "type": "d0ca078a-91bb-4b40-9b94-c5e96d64dee4",
+        "_links": {
+            "self": ".../modules/coffee/types/d0ca078a-91bb-4b40-9b94-c5e96d64dee4",
+        }
+    }
+]
+----
+
+=== Create coffee type
+.Request
+----
+POST .../modules/coffee/types
+Content-Type: application/json
+
+{
+    "name": "Kenya"
+}
+----
+
+.Response
+----
+Location: .../modules/coffee/types/a8b498c6-04d0-4c3b-9620-ea60013650b5
+----
+
+=== Delete coffee type
+.Request
+----
+DELETE .../modules/coffee/types/a8b498c6-04d0-4c3b-9620-ea60013650b5
+----
+
+.Response +
+_No content_
+
+=== Order a coffee
+*For App*: The coffee type and the strength (`integer` from `1` to `10`) is sent to order a new coffee.
+The URL of the created order (as in the `Location` header field) is used to create the QR code.
+
+.Request
+----
+POST .../modules/coffee/orders
+Content-Type: application/json
+
+{
+    "type": "75e67e9e-a0c7-4a4b-950a-b6a3c5852997",
+    "strength": 5
+}
+----
+
+.Response
+----
+Location: .../modules/coffee/orders/df7c22f8-ccf1-451b-b82c-b74ede68ffc6
+----
+
+== Games
+
+=== Get games
+*For App*: The URL of the selected game (as in `_links > self`) is used to create the QR code.
+The image URL of the selected game (as in `_links > image`) is used to display the image.
+
+.Request
+----
+GET .../modules/games
+----
+
+.Response
+----
+Content-Type: application/json
+
+[
+    {
+        "name": "Super Mario Bros.",
+        "_links": {
+            "self": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727",
+            "image": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/image",
+        }
+    },
+    {
+        "name": "Zelda",
+        "_links": {
+            "self": ".../modules/games/b08df85b-0fff-44ac-bf4b-81e0cf91af9c",
+            "image": ".../modules/games/b08df85b-0fff-44ac-bf4b-81e0cf91af9c/image"
+        }
+    }
+]
+----
+
+=== Checkout a game
+*TODO*
+
+=== Check-out / play / check-in a game
+*TODO*
+
+=== Manage games / images
+*TODO*
+
+== Embroideries
+
+=== Get embroideries
+*For App*: The URL of the selected embroidery (as in `_links > self`) is used to create the QR code.
+The image URL of the selected embroidery (as in `_links > image`) is used to display the image.
+
+.Request
+----
+GET .../modules/embroideries
+----
+
+.Response
+----
+Content-Type: application/json
+
+[
+    {
+        "name": "Waving Duke",
+        "_links": {
+            "self": ".../modules/embroideries/cf45d565-0545-4912-99b0-dfa0574793db",
+            "image": ".../modules/embroideries/cf45d565-0545-4912-99b0-dfa0574793db/image"
+        }
+    },
+    {
+        "name": "Motorbike Duke",
+        "_links": {
+            "self": ".../modules/embroideries/d95133b0-6336-4be1-a6bc-0b2d8e5c8077",
+            "image": ".../modules/embroideries/d95133b0-6336-4be1-a6bc-0b2d8e5c8077/image"
+        }
+    }
+]
+----
+
+=== Manage embroideries / images
+*TODO*
+
+== 3D prints
+
+=== Get 3D prints
+*For App*: The `id` of the selected 3D print is used for identification when voting.
+The image URL of the selected 3D print (as in `_links > image`) is used to display the image.
+
+.Request
+----
+GET .../modules/3d_prints
+----
+
+.Response
+----
+Content-Type: application/json
+
+[
+    {
+        "name": "Duke",
+        "id": "bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
+        "_links": {
+            "self": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
+            "image": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e/image"
+        }
+    },
+    {
+        "name": "Pylon",
+        "id": "bd4a4229-e84a-48a8-97a8-028b347f2bda",
+        "_links": {
+            "self": ".../modules/3d_prints/bd4a4229-e84a-48a8-97a8-028b347f2bda",
+            "image": ".../modules/3d_prints/bd4a4229-e84a-48a8-97a8-028b347f2bda/image"
+        }
+    }
+]
+----
+
+=== Create 3D print
+.Request
+----
+POST .../modules/3d_prints
+Content-Type: application/json
+
+{
+    "name": "RetroPi"
+},
+----
+
+.Response
+----
+Location: .../modules/3d_prints/4b68216a-ce6a-442a-802a-b3fdfc245d77
+----
+
+=== Upload 3D print image
+.Request
+----
+PUT .../modules/3d_prints/4b68216a-ce6a-442a-802a-b3fdfc245d77/image
+Content-Type: image/jpeg
+
+Image data
+----
+
+.Response +
+_No content_
+
+=== Get 3D print votes
+.Request
+----
+GET .../modules/3d_prints/votes
+----
+
+.Response
+----
+Content-Type: application/json
+
+[
+    {
+        "3d_print": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
+        "votes": 100
+    },
+    {
+        "3d_print": ".../modules/3d_prints/bd4a4229-e84a-48a8-97a8-028b347f2bda",
+        "votes": 49
+    }
+]
+----
+
+=== Get in progress 3D print
+.Request
+----
+GET .../modules/3d_prints/in_progress
+----
+
+.Response (print in progress)
+----
+Content-Type: application/json
+
+{
+    "name": "Duke",
+    "id": "bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
+    "_links": {
+        "self": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e"
+    }
+}
+----
+
+.Response (no print in progress)
+----
+204 No Content
+----
+
+=== Reset 3D print votes
+.Request
+----
+DELETE .../modules/3d_prints/votes
+----
+
+.Response +
+_No content_
