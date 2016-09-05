@@ -146,7 +146,7 @@ Location: .../modules/coffee/types/a8b498c6-04d0-4c3b-9620-ea60013650b5
 DELETE .../modules/coffee/types/a8b498c6-04d0-4c3b-9620-ea60013650b5
 ----
 
-.Response +
+.Response + 
 _No content_
 
 === Order a coffee
@@ -251,13 +251,45 @@ Content-Type: application/json
 DELETE .../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds/UUID
 ----
 
-.Response
+.Response + 
+_No content_
+
+=== Create game
+.Request
 ----
-204 No Content
+POST .../modules/games
+Content-Type: application/json
+
+{
+    "name": "Super Mario Bros.",
+},
 ----
 
-=== Manage games / images
-*TODO*
+.Response
+----
+Location: .../modules/games/UUID
+----
+
+=== Upload game image
+.Request
+----
+PUT .../modules/games/UUID
+Content-Type: image/png
+
+Image data
+----
+
+.Response + 
+_No content_
+
+=== Delete game
+.Request
+----
+DELETE .../modules/games/UUID
+----
+
+.Response + 
+_No content_
 
 == Embroideries
 
@@ -292,8 +324,42 @@ Content-Type: application/json
 ]
 ----
 
-=== Manage embroideries / images
-*TODO*
+=== Create embroidery
+.Request
+----
+POST .../modules/embroideries
+Content-Type: application/json
+
+{
+    "name": "Duke"
+},
+----
+
+.Response
+----
+Location: .../modules/embroideries/UUID
+----
+
+=== Upload embroidery image
+.Request
+----
+PUT .../modules/embroideries/UUID
+Content-Type: image/png
+
+Image data
+----
+
+.Response + 
+_No content_
+
+=== Delete embroidery
+.Request
+----
+DELETE .../modules/embroideries/UUID
+----
+
+.Response + 
+_No content_
 
 == 3D prints
 
@@ -350,12 +416,12 @@ Location: .../modules/3d_prints/4b68216a-ce6a-442a-802a-b3fdfc245d77
 .Request
 ----
 PUT .../modules/3d_prints/4b68216a-ce6a-442a-802a-b3fdfc245d77/image
-Content-Type: image/jpeg
+Content-Type: image/png
 
 Image data
 ----
 
-.Response +
+.Response + 
 _No content_
 
 === Get 3D print votes
@@ -394,15 +460,14 @@ Content-Type: application/json
     "name": "Duke",
     "id": "bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
     "_links": {
-        "self": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e"
+        "self": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e",
+        "image": ".../modules/3d_prints/bcb5ad14-e65a-47e5-b580-f2ce8c01427e/image"
     }
 }
 ----
 
-.Response (no print in progress)
-----
-204 No Content
-----
+.Response (no print in progress) + 
+_No content_
 
 === Reset 3D print votes
 .Request
@@ -410,5 +475,5 @@ Content-Type: application/json
 DELETE .../modules/3d_prints/votes
 ----
 
-.Response +
+.Response + 
 _No content_

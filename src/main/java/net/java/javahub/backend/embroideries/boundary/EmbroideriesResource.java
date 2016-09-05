@@ -95,7 +95,7 @@ public class EmbroideriesResource {
     }
 
     private URI createImageUri(final Embroidery embroidery) {
-        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "getImage").build(embroidery.getId());
+        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "downloadImage").build(embroidery.getId());
     }
 
 }
