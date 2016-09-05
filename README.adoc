@@ -190,23 +190,71 @@ Content-Type: application/json
         "_links": {
             "self": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727",
             "image": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/image",
+            "rounds": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds"
         }
     },
     {
         "name": "Zelda",
         "_links": {
             "self": ".../modules/games/b08df85b-0fff-44ac-bf4b-81e0cf91af9c",
-            "image": ".../modules/games/b08df85b-0fff-44ac-bf4b-81e0cf91af9c/image"
+            "image": ".../modules/games/b08df85b-0fff-44ac-bf4b-81e0cf91af9c/image",
+            "rounds": ".../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds"
         }
     }
 ]
 ----
 
 === Checkout a game
-*TODO*
+.Request
+----
+POST .../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds
+Content-Type: application/json
 
-=== Check-out / play / check-in a game
-*TODO*
+{
+    "device": "UUID"
+}
+----
+
+.Response (success)
+----
+201 Created
+Location: .../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds/UUID
+----
+
+.Response (game is currently been played)
+----
+409 Conflict
+----
+
+=== Play a game
+Retrieving this resource ensures the client keeps playing and the session stays active.
+The URL of the round serves as authentication only known to that particular client.
+
+.Request
+----
+GET .../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds/UUID
+----
+
+.Response
+----
+Content-Type: application/json
+
+{
+    "device": "UUID",
+    "started": "2016-01-01T10:00:00.000Z"
+}
+----
+
+=== Check-in a game (finish round)
+.Request
+----
+DELETE .../modules/games/6c438d1f-cbc7-4463-925e-e5be81182727/rounds/UUID
+----
+
+.Response
+----
+204 No Content
+----
 
 === Manage games / images
 *TODO*

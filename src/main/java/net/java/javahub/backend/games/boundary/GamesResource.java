@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.json.*;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -22,6 +23,9 @@ public class GamesResource {
 
     @Context
     UriInfo uriInfo;
+
+    @Context
+    ResourceContext rc;
 
     @GET
     public JsonArray getGames() {
@@ -57,7 +61,10 @@ public class GamesResource {
         }
     }
 
-    // TODO checkout / play / check-in game
+    @Path("{gameId}/rounds")
+    public RoundsResource rounds() {
+        return rc.getResource(RoundsResource.class);
+    }
 
     @PUT
     @Path("{id}/image")
@@ -87,8 +94,10 @@ public class GamesResource {
         final JsonObjectBuilder linksBuilder = Json.createObjectBuilder()
                 .add("self", createUri(game).toString());
 
-        if (game.getImageData() != null)
-            linksBuilder.add("image", createImageUri(game).toString());
+        if (game.getImageData() != null) {
+            linksBuilder.add("image", createImageUri(game).toString())
+                    .add("rounds", createRoundsUri(game).toString());
+        }
 
         return Json.createObjectBuilder()
                 .add("name", game.getName())
@@ -102,6 +111,10 @@ public class GamesResource {
 
     private URI createImageUri(final Game game) {
         return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "getImage").build(game.getId());
+    }
+
+    private URI createRoundsUri(final Game game) {
+        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").build(game.getId());
     }
 
 }
