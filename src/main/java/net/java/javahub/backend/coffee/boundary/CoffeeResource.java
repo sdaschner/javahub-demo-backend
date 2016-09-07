@@ -35,7 +35,7 @@ public class CoffeeResource {
     }
 
     @Path("orders")
-    public OrdersResource order() {
+    public OrdersResource orders() {
         return rc.getResource(OrdersResource.class);
     }
 

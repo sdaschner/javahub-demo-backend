@@ -16,8 +16,6 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Path("drawings")
-@Consumes(MediaType.TEXT_PLAIN)
-@Produces(MediaType.TEXT_PLAIN)
 public class DrawingsResource {
 
     @Inject
@@ -42,6 +40,7 @@ public class DrawingsResource {
 
     @GET
     @Path("{id}")
+    @Produces(MediaType.TEXT_PLAIN)
     public String getDrawing(@PathParam("id") long id) {
         final Drawing drawing = drawings.getDrawing(id);
 
@@ -52,13 +51,14 @@ public class DrawingsResource {
     }
 
     @POST
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response createDrawing(@NotNull String content) {
         final Drawing drawing = drawings.create(content);
         return Response.created(createUri(drawing)).build();
     }
 
     private URI createUri(final Drawing drawing) {
-        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "getDrawing").build(drawing.getId());
+        return uriInfo.getBaseUriBuilder().path(DrawingsResource.class).path(DrawingsResource.class, "getDrawing").build(drawing.getId());
     }
 
 }

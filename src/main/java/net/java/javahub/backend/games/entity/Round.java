@@ -6,10 +6,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "game_rounds")
-@NamedQueries(
+@NamedQueries(value = {
         @NamedQuery(name = Round.QUERY_FIND_ALL, query = "select r from Round r"),
         @NamedQuery(name = Round.QUERY_FIND_ACTIVE, query = "select r from Round r where game = :game and deviceId = :deviceId and active = true")
-)
+})
 public class Round {
 
     public static final String QUERY_FIND_ALL = "Round.findAll";

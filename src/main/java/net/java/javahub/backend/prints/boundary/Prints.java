@@ -10,9 +10,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Stateless
 public class Prints {
@@ -22,7 +23,6 @@ public class Prints {
 
     @PersistenceContext
     EntityManager entityManager;
-    private List<Vote> votes;
 
     public Print create(final String content) {
         final Print print = new Print(content);
@@ -55,17 +55,21 @@ public class Prints {
     }
 
     public Print getPrintInProgress() {
-        // TODO
-        return null;
+        // TODO implement
+        final List<Print> prints = entityManager.createNamedQuery(Print.QUERY_FIND_ALL, Print.class).getResultList();
+        if (prints.isEmpty())
+            return null;
+        return prints.get(0);
     }
 
     public List<Vote> getVotes() {
-        // TODO
-        return Collections.emptyList();
+        // TODO implement
+        return entityManager.createNamedQuery(Print.QUERY_FIND_ALL, Print.class).getResultList().stream()
+                .map(p -> new Vote(p, new Random().nextInt(100))).collect(Collectors.toList());
     }
 
     public void resetVotes() {
-        // TODO
+        // TODO implement
     }
 
 }
