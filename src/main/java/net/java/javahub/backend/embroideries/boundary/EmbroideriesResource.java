@@ -35,7 +35,7 @@ public class EmbroideriesResource {
 
     @GET
     @Path("{id}")
-    public JsonObject getEmbroidery(@PathParam("id") long id) {
+    public JsonObject getEmbroidery(@PathParam("id") final String id) {
         final Embroidery embroidery = embroideries.getEmbroidery(id);
 
         if (embroidery == null)

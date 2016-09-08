@@ -24,8 +24,8 @@ public class Prints {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Print create(final String content) {
-        final Print print = new Print(content);
+    public Print create(final String name) {
+        final Print print = new Print(name);
         return entityManager.merge(print);
     }
 
@@ -38,7 +38,7 @@ public class Prints {
         entityManager.merge(print);
     }
 
-    public Print getPrint(final long id) {
+    public Print getPrint(final String id) {
         return entityManager.find(Print.class, id);
     }
 
@@ -70,6 +70,15 @@ public class Prints {
 
     public void resetVotes() {
         // TODO implement
+    }
+
+    public void delete(final String id) {
+        final Print print = entityManager.find(Print.class, id);
+        if (print == null)
+            throw new NoSuchElementException("Could not find print with id " + id);
+
+        entityManager.remove(print);
+        entityManager.flush();
     }
 
 }

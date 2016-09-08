@@ -22,8 +22,8 @@ public class Games {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Game create(final String content) {
-        final Game drawing = new Game(content);
+    public Game create(final String name) {
+        final Game drawing = new Game(name);
         return entityManager.merge(drawing);
     }
 
@@ -38,7 +38,7 @@ public class Games {
         return retrieveGame(id).getImageData();
     }
 
-    public Game getGame(final long id) {
+    public Game getGame(final String id) {
         return entityManager.find(Game.class, id);
     }
 
@@ -55,24 +55,28 @@ public class Games {
         entityManager.flush();
     }
 
-    public Round startRound(final String gameId, final String deviceId) {
+    public Round startRound(final String gameId, final String device) {
         final Game game = retrieveGame(gameId);
 
-        if (findActiveRound(game, deviceId) != null)
+        if (findActiveRound(game, device) != null)
             throw new IllegalStateException("There is an active round at that device");
 
-        final Round round = new Round(deviceId);
+        final Round round = new Round(device);
         round.setGame(game);
         round.setActive(true);
 
         return entityManager.merge(round);
     }
 
-    private Round findActiveRound(final Game game, final String deviceId) {
-        return entityManager.createNamedQuery(Round.QUERY_FIND_ACTIVE, Round.class)
-                .setParameter("game", game)
-                .setParameter("deviceId", deviceId)
-                .getSingleResult();
+    private Round findActiveRound(final Game game, final String device) {
+        final List<Round> rounds = entityManager.createNamedQuery(Round.QUERY_FIND_ACTIVE, Round.class)
+                .setParameter("game", game).setParameter("device", device)
+                .setMaxResults(1).getResultList();
+
+        if (rounds.isEmpty())
+            return null;
+
+        return rounds.get(0);
     }
 
     public Round getActiveRound(final String roundId) {

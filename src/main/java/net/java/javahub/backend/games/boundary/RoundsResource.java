@@ -59,11 +59,11 @@ public class RoundsResource {
     }
 
     private JsonObject createRoundJson(final Round round) {
-        return Json.createObjectBuilder().add("device", round.getDeviceId()).build();
+        return Json.createObjectBuilder().add("device", round.getDevice()).build();
     }
 
     private URI createUri(final Round round) {
-        return uriInfo.getBaseUriBuilder().path(RoundsResource.class).path(RoundsResource.class, "getActiveRound").build(round.getGame().getId(), round.getId());
+        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").path(RoundsResource.class, "getActiveRound").build(round.getGame().getId(), round.getId());
     }
 
 }

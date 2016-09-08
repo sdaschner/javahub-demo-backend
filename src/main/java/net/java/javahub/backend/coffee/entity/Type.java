@@ -25,7 +25,7 @@ public class Type {
 
     @PrePersist
     private void generateId() {
-        if (id != null)
+        if (id == null)
             id = UUID.randomUUID().toString();
     }
 

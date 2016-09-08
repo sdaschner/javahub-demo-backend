@@ -18,7 +18,7 @@ public class Drawings {
         return entityManager.merge(drawing);
     }
 
-    public Drawing getDrawing(final long id) {
+    public Drawing getDrawing(final String id) {
         return entityManager.find(Drawing.class, id);
     }
 

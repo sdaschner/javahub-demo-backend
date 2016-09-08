@@ -3,6 +3,7 @@ package net.java.javahub.backend.prints.entity;
 import net.java.javahub.backend.images.entity.ImageEntity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "prints")
@@ -12,8 +13,7 @@ public class Print implements ImageEntity {
     public static final String QUERY_FIND_ALL = "Print.findAll";
 
     @Id
-    @GeneratedValue
-    private long id;
+    private String id;
 
     @Basic(optional = false)
     private String name;
@@ -29,11 +29,17 @@ public class Print implements ImageEntity {
         this.name = name;
     }
 
-    public long getId() {
+    @PrePersist
+    private void generateId() {
+        if (id == null)
+            id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(final long id) {
+    public void setId(final String id) {
         this.id = id;
     }
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 @Table(name = "game_rounds")
 @NamedQueries(value = {
         @NamedQuery(name = Round.QUERY_FIND_ALL, query = "select r from Round r"),
-        @NamedQuery(name = Round.QUERY_FIND_ACTIVE, query = "select r from Round r where game = :game and deviceId = :deviceId and active = true")
+        @NamedQuery(name = Round.QUERY_FIND_ACTIVE, query = "select r from Round r where game = :game and device = :device and active = true")
 })
 public class Round {
 
@@ -22,7 +22,7 @@ public class Round {
     private Game game;
 
     @Basic(optional = false)
-    private String deviceId;
+    private String device;
 
     private boolean active;
 
@@ -32,15 +32,15 @@ public class Round {
     public Round() {
     }
 
-    public Round(final String deviceId) {
-        this.deviceId = deviceId;
+    public Round(final String device) {
+        this.device = device;
     }
 
     @PrePersist
     private void generateInformation() {
-        if (id != null)
+        if (id == null)
             id = UUID.randomUUID().toString();
-        if (started != null)
+        if (started == null)
             started = Instant.now();
     }
 
@@ -60,12 +60,12 @@ public class Round {
         this.game = game;
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getDevice() {
+        return device;
     }
 
-    public void setDeviceId(final String deviceId) {
-        this.deviceId = deviceId;
+    public void setDevice(final String device) {
+        this.device = device;
     }
 
     public boolean isActive() {

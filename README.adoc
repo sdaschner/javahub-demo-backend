@@ -424,6 +424,15 @@ Image data
 .Response + 
 _No content_
 
+=== Delete 3D print
+.Request
+----
+DELETE .../modules/3d_prints/UUID
+----
+
+.Response +
+_No content_
+
 === Get 3D print votes
 .Request
 ----

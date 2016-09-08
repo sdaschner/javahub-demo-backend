@@ -41,7 +41,7 @@ public class DrawingsResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getDrawing(@PathParam("id") long id) {
+    public String getDrawing(@PathParam("id") String id) {
         final Drawing drawing = drawings.getDrawing(id);
 
         if (drawing == null)

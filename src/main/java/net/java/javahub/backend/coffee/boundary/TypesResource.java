@@ -10,14 +10,11 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.NoSuchElementException;
 
-@Consumes(MediaType.TEXT_PLAIN)
-@Produces(MediaType.TEXT_PLAIN)
 public class TypesResource {
 
     @Inject
@@ -70,7 +67,9 @@ public class TypesResource {
     }
 
     private URI createUri(final Type coffeeType) {
-        return uriInfo.getBaseUriBuilder().path(TypesResource.class).path(TypesResource.class, "getCoffeeType").build(coffeeType.getId());
+        return uriInfo.getBaseUriBuilder().path(CoffeeResource.class)
+                .path(CoffeeResource.class, "types")
+                .path(TypesResource.class, "getCoffeeType").build(coffeeType.getId());
     }
 
 }

@@ -1,10 +1,10 @@
 package net.java.javahub.backend.prints.boundary;
 
+import net.java.javahub.backend.ValidName;
 import net.java.javahub.backend.prints.entity.Print;
 
 import javax.inject.Inject;
 import javax.json.*;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -36,13 +36,29 @@ public class PrintsResource {
 
     @GET
     @Path("{id}")
-    public JsonObject getPrint(@PathParam("id") long id) {
+    public JsonObject getPrint(@PathParam("id") String id) {
         final Print print = prints.getPrint(id);
 
         if (print == null)
             throw new NotFoundException();
 
         return createPrintJson(print);
+    }
+
+    @POST
+    public Response createPrint(@ValidName JsonObject object) {
+        final Print print = prints.create(object.getString("name"));
+        return Response.created(createUri(print)).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void deletePrint(@PathParam("id") final String id) {
+        try {
+            prints.delete(id);
+        } catch (NoSuchElementException e) {
+            throw new NotFoundException();
+        }
     }
 
     @GET
@@ -59,12 +75,6 @@ public class PrintsResource {
     @Path("votes")
     public VotesResource votes() {
         return rc.getResource(VotesResource.class);
-    }
-
-    @POST
-    public Response createPrint(@NotNull String content) {
-        final Print print = prints.create(content);
-        return Response.created(createUri(print)).build();
     }
 
     @PUT

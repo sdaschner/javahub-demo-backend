@@ -10,8 +10,8 @@ public class RoundValidator implements ConstraintValidator<ValidRound, JsonObjec
     }
 
     public boolean isValid(JsonObject object, ConstraintValidatorContext context) {
-        final String deviceId = object.getString("deviceId", null);
-        return deviceId != null && !deviceId.isEmpty();
+        final String device = object.getString("device", null);
+        return device != null && !device.isEmpty();
     }
 
 }

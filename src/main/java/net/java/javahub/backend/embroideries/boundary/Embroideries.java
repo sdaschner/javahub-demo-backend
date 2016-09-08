@@ -34,7 +34,7 @@ public class Embroideries {
         entityManager.merge(embroidery);
     }
 
-    public Embroidery getEmbroidery(final long id) {
+    public Embroidery getEmbroidery(final String id) {
         return entityManager.find(Embroidery.class, id);
     }
 

@@ -10,13 +10,10 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
-@Consumes(MediaType.TEXT_PLAIN)
-@Produces(MediaType.TEXT_PLAIN)
 public class OrdersResource {
 
     @Inject
@@ -62,7 +59,9 @@ public class OrdersResource {
     }
 
     private URI createUri(final Order order) {
-        return uriInfo.getBaseUriBuilder().path(OrdersResource.class).path(OrdersResource.class, "getOrder").build(order.getId());
+        return uriInfo.getBaseUriBuilder().path(CoffeeResource.class)
+                .path(CoffeeResource.class, "orders")
+                .path(OrdersResource.class, "getOrder").build(order.getId());
     }
 
 }

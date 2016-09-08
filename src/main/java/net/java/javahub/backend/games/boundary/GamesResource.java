@@ -1,5 +1,6 @@
 package net.java.javahub.backend.games.boundary;
 
+import net.java.javahub.backend.ValidName;
 import net.java.javahub.backend.games.entity.Game;
 
 import javax.inject.Inject;
@@ -36,7 +37,7 @@ public class GamesResource {
 
     @GET
     @Path("{id}")
-    public JsonObject getGame(@PathParam("id") long id) {
+    public JsonObject getGame(@PathParam("id") final String id) {
         final Game game = games.getGame(id);
 
         if (game == null)
@@ -46,8 +47,8 @@ public class GamesResource {
     }
 
     @POST
-    public Response createGame(@NotNull String content) {
-        final Game game = games.create(content);
+    public Response createGame(@ValidName final JsonObject object) {
+        final Game game = games.create(object.getString("name"));
         return Response.created(createUri(game)).build();
     }
 
@@ -77,7 +78,6 @@ public class GamesResource {
         }
     }
 
-
     @GET
     @Path("{id}/image")
     @Produces("image/png")
@@ -90,7 +90,7 @@ public class GamesResource {
         }
     }
 
-    private JsonObject createGameJson(Game game) {
+    private JsonObject createGameJson(final Game game) {
         final JsonObjectBuilder linksBuilder = Json.createObjectBuilder()
                 .add("self", createUri(game).toString());
 
@@ -110,7 +110,7 @@ public class GamesResource {
     }
 
     private URI createImageUri(final Game game) {
-        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "getImage").build(game.getId());
+        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "downloadImage").build(game.getId());
     }
 
     private URI createRoundsUri(final Game game) {
