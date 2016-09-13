@@ -58,7 +58,7 @@ public class DrawingsResource {
     }
 
     private URI createUri(final Drawing drawing) {
-        return uriInfo.getBaseUriBuilder().path(DrawingsResource.class).path(DrawingsResource.class, "getDrawing").build(drawing.getId());
+        return uriInfo.getRequestUriBuilder().path(DrawingsResource.class).path(DrawingsResource.class, "getDrawing").build(drawing.getId());
     }
 
 }

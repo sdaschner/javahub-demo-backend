@@ -115,11 +115,11 @@ public class PrintsResource {
     }
 
     private URI createUri(final Print print) {
-        return uriInfo.getBaseUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "getPrint").build(print.getId());
+        return uriInfo.getRequestUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "getPrint").build(print.getId());
     }
 
     private URI createImageUri(final Print print) {
-        return uriInfo.getBaseUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "downloadImage").build(print.getId());
+        return uriInfo.getRequestUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "downloadImage").build(print.getId());
     }
 
 }

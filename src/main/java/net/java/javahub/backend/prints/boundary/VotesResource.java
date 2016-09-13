@@ -10,7 +10,9 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
@@ -24,14 +26,22 @@ public class VotesResource {
 
     @GET
     public JsonArray getVotes() {
-        return prints.getVotes().stream()
-                .map(this::createVoteJson)
-                .collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add).build();
+        try {
+            return prints.getVotes().stream()
+                    .map(this::createVoteJson)
+                    .collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add).build();
+        } catch (Exception e) {
+            throw new WebApplicationException(Response.Status.BAD_GATEWAY);
+        }
     }
 
     @DELETE
     public void resetVotes() {
-        prints.resetVotes();
+        try {
+            prints.resetVotes();
+        } catch (Exception e) {
+            throw new WebApplicationException(Response.Status.BAD_GATEWAY);
+        }
     }
 
     private JsonObject createVoteJson(final Vote vote) {
@@ -42,7 +52,7 @@ public class VotesResource {
     }
 
     private URI createUri(final Print print) {
-        return uriInfo.getBaseUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "getPrint").build(print.getId());
+        return uriInfo.getRequestUriBuilder().path(PrintsResource.class).path(PrintsResource.class, "getPrint").build(print.getId());
     }
 
 }

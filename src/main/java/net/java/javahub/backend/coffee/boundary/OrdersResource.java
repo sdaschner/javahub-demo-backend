@@ -59,7 +59,7 @@ public class OrdersResource {
     }
 
     private URI createUri(final Order order) {
-        return uriInfo.getBaseUriBuilder().path(CoffeeResource.class)
+        return uriInfo.getRequestUriBuilder().path(CoffeeResource.class)
                 .path(CoffeeResource.class, "orders")
                 .path(OrdersResource.class, "getOrder").build(order.getId());
     }

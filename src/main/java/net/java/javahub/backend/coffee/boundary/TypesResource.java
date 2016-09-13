@@ -67,7 +67,7 @@ public class TypesResource {
     }
 
     private URI createUri(final Type coffeeType) {
-        return uriInfo.getBaseUriBuilder().path(CoffeeResource.class)
+        return uriInfo.getRequestUriBuilder().path(CoffeeResource.class)
                 .path(CoffeeResource.class, "types")
                 .path(TypesResource.class, "getCoffeeType").build(coffeeType.getId());
     }

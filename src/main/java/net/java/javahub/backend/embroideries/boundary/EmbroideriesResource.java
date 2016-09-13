@@ -91,11 +91,11 @@ public class EmbroideriesResource {
     }
 
     private URI createUri(final Embroidery embroidery) {
-        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "getEmbroidery").build(embroidery.getId());
+        return uriInfo.getRequestUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "getEmbroidery").build(embroidery.getId());
     }
 
     private URI createImageUri(final Embroidery embroidery) {
-        return uriInfo.getBaseUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "downloadImage").build(embroidery.getId());
+        return uriInfo.getRequestUriBuilder().path(EmbroideriesResource.class).path(EmbroideriesResource.class, "downloadImage").build(embroidery.getId());
     }
 
 }

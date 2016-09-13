@@ -106,15 +106,15 @@ public class GamesResource {
     }
 
     private URI createUri(final Game game) {
-        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "getGame").build(game.getId());
+        return uriInfo.getRequestUriBuilder().path(GamesResource.class).path(GamesResource.class, "getGame").build(game.getId());
     }
 
     private URI createImageUri(final Game game) {
-        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "downloadImage").build(game.getId());
+        return uriInfo.getRequestUriBuilder().path(GamesResource.class).path(GamesResource.class, "downloadImage").build(game.getId());
     }
 
     private URI createRoundsUri(final Game game) {
-        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").build(game.getId());
+        return uriInfo.getRequestUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").build(game.getId());
     }
 
 }

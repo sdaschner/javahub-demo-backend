@@ -2,6 +2,7 @@ package net.java.javahub.backend.prints.boundary;
 
 
 import net.java.javahub.backend.images.control.Images;
+import net.java.javahub.backend.prints.control.Votes;
 import net.java.javahub.backend.prints.entity.Print;
 import net.java.javahub.backend.prints.entity.Vote;
 
@@ -12,14 +13,15 @@ import javax.persistence.PersistenceContext;
 import java.io.InputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 @Stateless
 public class Prints {
 
     @Inject
     Images images;
+
+    @Inject
+    Votes votes;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -30,10 +32,7 @@ public class Prints {
     }
 
     public void addImage(final String id, final InputStream imageInput) {
-        final Print print = entityManager.find(Print.class, id);
-        if (print == null)
-            throw new NoSuchElementException("Could not find print with id " + id);
-
+        final Print print = retrievePrint(id);
         images.addImage(print, imageInput);
         entityManager.merge(print);
     }
@@ -43,10 +42,7 @@ public class Prints {
     }
 
     public byte[] getImageData(final String id) {
-        final Print print = entityManager.find(Print.class, id);
-        if (print == null)
-            throw new NoSuchElementException("Could not find print with id " + id);
-
+        final Print print = retrievePrint(id);
         return print.getImageData();
     }
 
@@ -63,22 +59,24 @@ public class Prints {
     }
 
     public List<Vote> getVotes() {
-        // TODO implement
-        return entityManager.createNamedQuery(Print.QUERY_FIND_ALL, Print.class).getResultList().stream()
-                .map(p -> new Vote(p, new Random().nextInt(100))).collect(Collectors.toList());
+        return votes.getVotes();
     }
 
     public void resetVotes() {
-        // TODO implement
+        votes.resetVotes();
     }
 
     public void delete(final String id) {
+        final Print print = retrievePrint(id);
+        entityManager.remove(print);
+        entityManager.flush();
+    }
+
+    private Print retrievePrint(final String id) {
         final Print print = entityManager.find(Print.class, id);
         if (print == null)
             throw new NoSuchElementException("Could not find print with id " + id);
-
-        entityManager.remove(print);
-        entityManager.flush();
+        return print;
     }
 
 }

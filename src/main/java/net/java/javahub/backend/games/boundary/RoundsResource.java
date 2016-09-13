@@ -63,7 +63,7 @@ public class RoundsResource {
     }
 
     private URI createUri(final Round round) {
-        return uriInfo.getBaseUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").path(RoundsResource.class, "getActiveRound").build(round.getGame().getId(), round.getId());
+        return uriInfo.getRequestUriBuilder().path(GamesResource.class).path(GamesResource.class, "rounds").path(RoundsResource.class, "getActiveRound").build(round.getGame().getId(), round.getId());
     }
 
 }
